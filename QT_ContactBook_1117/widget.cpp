@@ -14,8 +14,8 @@
 
 QString mFilename = "C:/Users/user/Desktop/大學/_課程&作業/大二上/視窗程式設計/GitHub/QT_ContactBook_1117/.data/test.txt";
 
-void write_file(QString filename, QString str) {
-    QFile mFile(filename);
+void write_file(QString path, QString str) {
+    QFile mFile(path);
     if (!mFile.open(QFile::WriteOnly | QFile::Text)) {
         qDebug() << "Could not open file for write.";
         return;
@@ -27,8 +27,8 @@ void write_file(QString filename, QString str) {
     mFile.close();
 };
 
-QJsonDocument read_file(QString filename) {
-    QFile file(filename);
+QJsonDocument read_file(QString path) {
+    QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
         // qWarning() << "Error!! open file failured>:" << file.errorString();
         throw file.errorString();
@@ -149,7 +149,12 @@ void Widget::on_pushButton_2_clicked()
     write_file(mFilename, saveFile);
     */
     QJsonDocument doc(q_json);
-    write_file(mFilename, doc.toJson(QJsonDocument::Indented));
+    QString path = QFileDialog::getSaveFileName(
+        this,
+        tr("將資料儲存至..."),
+        QDir::homePath(),
+        tr("(*.json)"));
+    write_file(path, doc.toJson(QJsonDocument::Indented));
 }
 
 
@@ -173,7 +178,13 @@ void Widget::on_pushButton_4_clicked()
 void Widget::on_pushButton_3_clicked()
 {   // import from the file
     try {
-        QJsonDocument doc = read_file(mFilename);
+        QString path = QFileDialog::getOpenFileName(
+            this,
+            tr("請選擇要開啟的 JSON 檔案"),
+            QDir::homePath(),
+            tr("(*.json)")
+        );
+        QJsonDocument doc = read_file(path);
         QJsonObject obj = doc.object();
         QJsonValue value = obj.value("table");
         QJsonArray array = value.toArray();
@@ -202,4 +213,3 @@ void Widget::on_pushButton_3_clicked()
         qDebug() << "Catched an error: \n" <<e;
     }
 }
-

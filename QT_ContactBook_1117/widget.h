@@ -22,7 +22,13 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::Widget *ui;
+
+    void _new_item_to_tableWidget(QString str1, QString str2, QString str3, QString str4);
 };
 #endif // WIDGET_H

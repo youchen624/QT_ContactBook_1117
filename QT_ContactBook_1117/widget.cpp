@@ -182,7 +182,7 @@ void Widget::on_pushButton_3_clicked()
             this,
             tr("請選擇要開啟的 JSON 檔案"),
             QDir::homePath(),
-            tr("(*.json)")
+            tr("(*.json);;All(*)")
         );
         QJsonDocument doc = read_file(path);
         QJsonObject obj = doc.object();
@@ -196,9 +196,9 @@ void Widget::on_pushButton_3_clicked()
         for (const QJsonValue& ele : array) {
             _new_item_to_tableWidget(
                 QString(ele[0].toString()),
-                QString(ele[0].toString()),
-                QString(ele[0].toString()),
-                QString(ele[0].toString())
+                QString(ele[1].toString()),
+                QString(ele[2].toString()),
+                QString(ele[3].toString())
                 );
             // int c = 0;
             // QJsonArray arr = elem.toArray();
